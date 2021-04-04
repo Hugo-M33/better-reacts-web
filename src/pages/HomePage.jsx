@@ -56,6 +56,7 @@ grid-template-rows: 20vh 15vh 10vh 1fr;
 const HomePage = () => {
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [assets, setAssets] = useState([])
+    const [query,setQuery] = useState("");
 
     const fetchData =  async () => {
         const data = await fetch("https://better-reacts.netlify.app/.netlify/functions/getAssets", {method: 'GET'}).then(p => p.json()).then(a => a.sort(compareAssets)).then(r => setAssets(r))
@@ -75,7 +76,7 @@ const HomePage = () => {
                 <h1>Better Reacts</h1>
                 <h2>A Discord bot for advanced memers</h2>
             </SubLogo>
-            <SearchBar spellCheck="false" disabled/>
+            <SearchBar spellCheck="false" onChange={v => setQuery(v)} value={query} disabled/>
             <CategorySelectorArea>
                 {Categories.map(c => <HomeCategoryButton key={"catButton" + c} category={c} selected={c === selectedCategory} setter={setSelectedCategory}></HomeCategoryButton>)}
             </CategorySelectorArea>
