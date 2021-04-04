@@ -74,7 +74,7 @@ const HomePage = () => {
             <CategorySelectorArea>
                 {Categories.map(c => <HomeCategoryButton key={"catButton" + c} category={c} selected={c === selectedCategory} setter={setSelectedCategory}></HomeCategoryButton>)}
             </CategorySelectorArea>
-            {assets.map(i => <p>{JSON.stringify(assets, null, 2)}</p>)}
+            {assets.map(i => <p>{JSON.stringify(i, null, 2)}</p>)}
         </Page>
     )
 }
