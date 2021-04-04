@@ -24,6 +24,7 @@ const getEmoji = (type) => {
 const AssetCard = ({title, link, type}) => {
     return (
         <Card>
+            {type === "Image" && <img style={{width: "80%"}} src={link}/>}
            <h3>{title} {getEmoji(type)}</h3> 
         </Card>
     )
