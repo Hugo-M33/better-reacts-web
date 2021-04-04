@@ -11,17 +11,20 @@ exports.handler = async function (event, context) {
 
   const imgCol = await db.collection("d-images").get();
   const vidCol = await db.collection("d-videos").get();
-  const vidCP = await db.collection("d-copypasta").get();
+  const CPCol = await db.collection("d-copypasta").get();
+  const audioCol = await db.collection("d-audio").get();
   
   let images = imgCol.docs;
   let videos = vidCol.docs;
-  let copypastas = vidCP.docs;
+  let copypastas = CPCol.docs;
+  let audios = audioCol.docs;
 
   let all = [];
 
   images.map((doc) => all.push(doc.data()));
   videos.map((doc) => all.push(doc.data()));
   copypastas.map((doc) => all.push(doc.data()));
+  audios.map((doc) => all.push(doc.data()));
 
   console.log(JSON.stringify(all));
 
