@@ -78,7 +78,7 @@ const HomePage = () => {
                 {Categories.map(c => <HomeCategoryButton key={"catButton" + c} category={c} selected={c === selectedCategory} setter={setSelectedCategory}></HomeCategoryButton>)}
             </CategorySelectorArea>
             <HomeAssetsGrid>
-            {assets.filter(e => e.type === selectedCategory || selectedCategory === "All").map(i => <AssetCard key={i.key} title={i.key} link={i.link}></AssetCard>)}
+            {assets.filter(e => e.type === selectedCategory || selectedCategory === "All").map(i => <AssetCard type={i.type} key={i.key} title={i.key} link={i.link}></AssetCard>)}
 
             </HomeAssetsGrid>
         </Page>

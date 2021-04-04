@@ -8,10 +8,23 @@ border: 1px solid grey;
 box-shadow: 3px 6px 15px rgba(0, 0, 0, 0.2);
 border-radius: 10px;
 `
-const AssetCard = ({title, link}) => {
+
+const getEmoji = (type) => {
+    switch(type) {
+        case "Video":
+            return "🎥"
+        case "Image":
+            return "🖼️"
+        case "Copypasta":
+            return "📝"
+        case "Audio":
+            return "🔊"
+    }
+}
+const AssetCard = ({title, link, type}) => {
     return (
         <Card>
-           <h3>{title}</h3> 
+           <h3>{getEmoji(type)} {title}</h3> 
         </Card>
     )
 }
