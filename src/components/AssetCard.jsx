@@ -26,7 +26,7 @@ const AssetCard = ({title, link, type}) => {
         <Card>
             {type === "Image" && <img style={{width: "80%"}} src={link}/>}
             {type === "Video" && <video style={{width: "80%"}} src={link} controls/>}
-            {type === "Copypasta" && <video style={{width: "80%"}} src={link.substring(0,100)}/>}
+            {type === "Copypasta" && <p style={{width: "80%"}}>{link.substring(0,100)}</p>}
             {type === "Audio" && <audio style={{width: "80%"}} src={link} controls/>}
            <h3>{title} {getEmoji(type)}</h3> 
         </Card>
