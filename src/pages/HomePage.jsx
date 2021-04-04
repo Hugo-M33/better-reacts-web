@@ -53,6 +53,11 @@ const Page = styled.main`
 display: grid;
 grid-template-rows: 20vh 15vh 10vh 1fr;
 `
+
+fetch("https://better-reacts.netlify.app/.netlify/functions/getSingle", {
+  method: "POST",
+  body: JSON.stringify({name: "from react client"})
+}).then(r => r.json()).then(console.log)
 const HomePage = () => {
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [assets, setAssets] = useState([])
