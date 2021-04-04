@@ -76,12 +76,12 @@ const HomePage = () => {
                 <h1>Better Reacts</h1>
                 <h2>A Discord bot for advanced memers</h2>
             </SubLogo>
-            <SearchBar spellCheck="false" onChange={v => setQuery(v)} value={query} disabled/>
+            <SearchBar spellCheck="false" onChange={v => setQuery(v)} value={query}/>
             <CategorySelectorArea>
                 {Categories.map(c => <HomeCategoryButton key={"catButton" + c} category={c} selected={c === selectedCategory} setter={setSelectedCategory}></HomeCategoryButton>)}
             </CategorySelectorArea>
             <HomeAssetsGrid>
-            {assets.filter(e => e.type === selectedCategory || selectedCategory === "All").map(i => <AssetCard type={i.type} key={i.type + "-" + i.key} title={i.key} link={i.link}></AssetCard>)}
+            {assets.filter(e => e.type === selectedCategory || selectedCategory === "All").filter(asset => query.trim() && query.trim().contains(asset.key)).map(i => <AssetCard type={i.type} key={i.type + "-" + i.key} title={i.key} link={i.link}></AssetCard>)}
 
             </HomeAssetsGrid>
         </Page>
