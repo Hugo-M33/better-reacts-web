@@ -76,7 +76,7 @@ const HomePage = () => {
                 <h1>Better Reacts</h1>
                 <h2>A Discord bot for advanced memers</h2>
             </SubLogo>
-            <SearchBar spellCheck="false" onChange={v => setQuery(v.trim())} value={query}/>
+            <SearchBar spellCheck="false" onChange={v => setQuery(v.trim())} defaultValue={query}/>
             <CategorySelectorArea>
                 {Categories.map(c => <HomeCategoryButton key={"catButton" + c} category={c} selected={c === selectedCategory} setter={setSelectedCategory}></HomeCategoryButton>)}
             </CategorySelectorArea>
