@@ -56,7 +56,7 @@ const HomePage = () => {
     const [assets, setAssets] = useState([])
 
     const fetchData =  async () => {
-        const data = await fetch("http://localhost:59925/.netlify/functions/getAssets", {method: 'GET'}).then(d => d.json()).then(r => console.log(r))
+        const data = await fetch("https://better-reacts.netlify.app/.netlify/functions/getAssets", {method: 'GET'}).then(d => d.json()).then(r => console.log(r))
         
     }
 
