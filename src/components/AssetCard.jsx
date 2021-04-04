@@ -24,7 +24,7 @@ const getEmoji = (type) => {
 const AssetCard = ({title, link, type}) => {
     return (
         <Card>
-           <h3>{getEmoji(type)} {title}</h3> 
+           <h3>{title} {getEmoji(type)}</h3> 
         </Card>
     )
 }
