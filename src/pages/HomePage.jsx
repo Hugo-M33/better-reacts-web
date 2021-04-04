@@ -81,7 +81,7 @@ const HomePage = () => {
                 {Categories.map(c => <HomeCategoryButton key={"catButton" + c} category={c} selected={c === selectedCategory} setter={setSelectedCategory}></HomeCategoryButton>)}
             </CategorySelectorArea>
             <HomeAssetsGrid>
-            {assets.filter(e => e.type === selectedCategory || selectedCategory === "All").filter(asset => query.trim() && query.trim().contains(asset.key)).map(i => <AssetCard type={i.type} key={i.type + "-" + i.key} title={i.key} link={i.link}></AssetCard>)}
+            {assets.filter(e => e.type === selectedCategory || selectedCategory === "All").filter(asset => query.trim().contains(asset.key) || query.trim() === "").map(i => <AssetCard type={i.type} key={i.type + "-" + i.key} title={i.key} link={i.link}></AssetCard>)}
 
             </HomeAssetsGrid>
         </Page>
