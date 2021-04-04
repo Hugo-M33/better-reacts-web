@@ -34,7 +34,7 @@ exports.handler = async function (event, context) {
         if (!doc.exists) {
             return {
                 statusCode: 400,
-                body: "No such item",
+                body: JSON.stringify({key: "inexistant", link:"https://images-na.ssl-images-amazon.com/images/I/71po77VsbvL._AC_SY679_.jpg", defaultMessage: "", type: JSON.parse(event.body).type}),
                 headers: {
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Headers": "Content-Type",
