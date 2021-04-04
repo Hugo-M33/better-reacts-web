@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import {useState, useEffect} from "react"
 import HomeCategoryButton from '../components/HomeCategoryButton'
+import HomeAssetsGrid from '../components/HomeAssetsGrid'
+import AssetCard from '../components/AssetCard'
 
 const APPLOGO = "https://risibank.fr/cache/stickers/d1591/159154-full.png"
 const Categories = ["All", "Video", "Image", "Audio", "Copypasta"];
@@ -57,6 +59,7 @@ const HomePage = () => {
 
     const fetchData =  async () => {
         const data = await fetch("https://better-reacts.netlify.app/.netlify/functions/getAssets", {method: 'GET'}).then(p => p.json()).then(r => setAssets(r))
+        //const data = await fetch("http://localhost:57514/.netlify/functions/getAssets", {method: 'GET'}).then(p => p.json()).then(r => setAssets(r))
     }
 
     useEffect(() => {
@@ -74,7 +77,10 @@ const HomePage = () => {
             <CategorySelectorArea>
                 {Categories.map(c => <HomeCategoryButton key={"catButton" + c} category={c} selected={c === selectedCategory} setter={setSelectedCategory}></HomeCategoryButton>)}
             </CategorySelectorArea>
-            {assets.map(i => <p>{JSON.stringify(i, null, 2)}</p>)}
+            <HomeAssetsGrid>
+            {assets.map(i => <AssetCard key={i.key} link={i.link}></AssetCard>)}
+
+            </HomeAssetsGrid>
         </Page>
     )
 }
