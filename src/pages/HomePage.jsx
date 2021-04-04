@@ -56,8 +56,7 @@ const HomePage = () => {
     const [assets, setAssets] = useState([])
 
     const fetchData =  async () => {
-        const data = await fetch("https://better-reacts.netlify.app/.netlify/functions/getAssets", {method: 'GET'}).then(d => d.json()).then(r => console.log(r))
-        
+        const data = await fetch("https://better-reacts.netlify.app/.netlify/functions/getAssets", {method: 'GET'}).then(p => p.json()).then(r => setAssets(r))
     }
 
     useEffect(() => {
@@ -75,6 +74,7 @@ const HomePage = () => {
             <CategorySelectorArea>
                 {Categories.map(c => <HomeCategoryButton key={"catButton" + c} category={c} selected={c === selectedCategory} setter={setSelectedCategory}></HomeCategoryButton>)}
             </CategorySelectorArea>
+            {assets.map(i => <p>{JSON.stringify(assets, null, 2)}</p>)}
         </Page>
     )
 }
