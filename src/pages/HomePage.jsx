@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import HomeCategoryButton from '../components/HomeCategoryButton'
 
 const Categories = ["All", "Video", "Image", "Audio", "Copypasta"];
@@ -53,6 +53,17 @@ grid-template-rows: 20vh 15vh 10vh 1fr;
 `
 const HomePage = () => {
     const [selectedCategory, setSelectedCategory] = useState("All");
+    const [assets, setAssets] = useState([])
+
+    const fetchData =  async () => {
+        const data = await fetch("http://localhost:59925/.netlify/functions/getAssets", {method: 'GET'}).then(d => d.json()).then(r => console.log(r))
+        
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
     return (
         <Page>
             <HomeLogo src={APPLOGO} alt="Pascal Praud" />
@@ -62,7 +73,7 @@ const HomePage = () => {
             </SubLogo>
             <SearchBar spellCheck="false" />
             <CategorySelectorArea>
-                {Categories.map(c => <HomeCategoryButton category={c} selected={c === selectedCategory} setter={setSelectedCategory}></HomeCategoryButton>)}
+                {Categories.map(c => <HomeCategoryButton key={"catButton" + c} category={c} selected={c === selectedCategory} setter={setSelectedCategory}></HomeCategoryButton>)}
             </CategorySelectorArea>
         </Page>
     )
