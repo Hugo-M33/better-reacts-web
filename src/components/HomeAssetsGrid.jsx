@@ -7,10 +7,10 @@ grid-gap: 30px;
 width: 80%;
 `
 
-const HomeAssetsGrid = () => {
+const HomeAssetsGrid = ({children}) => {
     return (
         <CustomGrid>
-            
+            {children}
         </CustomGrid>
     )
 }
