@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import {useState, useEffect} from "react"
 import HomeCategoryButton from '../components/HomeCategoryButton'
 
+const APPLOGO = "https://risibank.fr/cache/stickers/d1591/159154-full.png"
 const Categories = ["All", "Video", "Image", "Audio", "Copypasta"];
 
 const CategorySelectorArea = styled.div`
@@ -12,7 +13,6 @@ flex-wrap: wrap;
 justify-content: center;
 `
 
-const APPLOGO = "https://risibank.fr/cache/stickers/d1591/159154-full.png"
 
 const HomeLogo = styled.img`
     height:80%;
