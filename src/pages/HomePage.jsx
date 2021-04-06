@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {useState, useEffect} from "react"
+import {useState} from "react"
 import HomeCategoryButton from '../components/HomeCategoryButton'
 import HomeAssetsGrid from '../components/HomeAssetsGrid'
 import AssetCard from '../components/AssetCard'
@@ -54,25 +54,17 @@ display: grid;
 grid-template-rows: 20vh 15vh 10vh 1fr;
 `
 
-fetch("https://better-reacts.netlify.app/.netlify/functions/getSingle", {
-  method: "POST",
-  body: JSON.stringify({name: "from react client"})
-}).then(r => r.json()).then(console.log)
-const HomePage = () => {
+
+const HomePage = ({assets, setAssets}) => {
     const [selectedCategory, setSelectedCategory] = useState("All");
-    const [assets, setAssets] = useState([])
+
     const [query,setQuery] = useState("");
 
-    const fetchData =  async () => {
-        const data = await fetch("https://better-reacts.netlify.app/.netlify/functions/getAssets", {method: 'GET'}).then(p => p.json()).then(a => a.sort(compareAssets)).then(r => setAssets(r))
-        //const data = await fetch("http://localhost:57514/.netlify/functions/getAssets", {method: 'GET'}).then(p => p.json()).then(r => setAssets(r))
-    }
+    
 
-    const compareAssets = (a, b) => a.key.localeCompare(b.key)
+    
 
-    useEffect(() => {
-        fetchData()
-    }, [])
+    
 
     return (
         <Page>

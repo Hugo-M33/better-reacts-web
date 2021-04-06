@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { motion, AnimateSharedLayout } from 'framer-motion'
 import { useState } from 'react'
+import {Link} from 'react-router-dom'
 
 const StyledNav = styled.nav`
     height: 100px;
@@ -16,7 +17,7 @@ const StyledNav = styled.nav`
 `
 
 const Menu = styled.ul`
-    width: 60%;
+    width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -30,7 +31,8 @@ const spring = {
 
 const Item = ({ isSelected, onClick, children }) => {
     return (
-      <li onClick={onClick} style={{listStyle:"none", position: "relative", cursor: "pointer"}}>
+        <li  style={{listStyle:"none", position: "relative", cursor: "pointer"}}>
+          <Link onClick={onClick} to={`/${children.toLowerCase()}`} style={{display: "block", textDecoration: "none", placeSelf:"center"}}>
           <h2 style={{color: isSelected? "white": "black"}}>{children}
         {isSelected && (
           <motion.div
@@ -41,6 +43,7 @@ const Item = ({ isSelected, onClick, children }) => {
           ></motion.div>
           )}
           </h2>
+      </Link>
       </li>
     );
   }
