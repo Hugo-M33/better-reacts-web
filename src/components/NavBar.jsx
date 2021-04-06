@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { motion, AnimateSharedLayout } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {Link} from 'react-router-dom'
 
 const StyledNav = styled.nav`
@@ -49,12 +49,17 @@ const Item = ({ isSelected, onClick, children }) => {
   }
 
   const serializePage = str => {
-      return str.slice(1).charAt(0).toUpperCase() + str.slice(2);
-  }
+      
+    return str.slice(1).charAt(0).toUpperCase() + str.slice(2);
+}
 
 const NavBar = () => {
     const [pages, setPages] = useState(["Home", "Submit"])
-    const [selected,setSelected] = useState(serializePage(window.location.pathname))
+    const [selected,setSelected] = useState("Home")
+
+    useEffect(() => {
+        setSelected(serializePage(window.location.pathname))
+    }, [window.location.pathname])
     return (
         <AnimateSharedLayout>
             <StyledNav>
