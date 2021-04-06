@@ -48,9 +48,13 @@ const Item = ({ isSelected, onClick, children }) => {
     );
   }
 
+  const serializePage = str => {
+      return str.slice(1).charAt(0).toUpperCase() + str.slice(2);
+  }
+
 const NavBar = () => {
     const [pages, setPages] = useState(["Home", "Submit"])
-    const [selected,setSelected] = useState(pages[0])
+    const [selected,setSelected] = useState(serializePage(window.location.pathname))
     return (
         <AnimateSharedLayout>
             <StyledNav>
