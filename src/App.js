@@ -11,6 +11,7 @@ import {useState,useEffect} from 'react'
 
 // Pages imports
 import HomePage from './pages/HomePage'
+import SubmitPage from './pages/SubmitPage'
 
 // Components imports
 import NavBar from './components/NavBar'
@@ -40,7 +41,7 @@ useEffect(() => {
       <HomePage assets={assets} setAssets={setAssets}/>
       </Route>
       <Route path="/submit">
-        <h1>SUBMIT</h1>
+        <SubmitPage/>
       </Route>
       <Route path="/" exact>
         <Redirect to="/home"></Redirect>
