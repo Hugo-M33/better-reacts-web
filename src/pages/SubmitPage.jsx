@@ -63,13 +63,16 @@ const SubmitPage = ({assets, setAssets,big}) => {
     const [subText,setSubText] = useState("Choose a category")
     const [charCounter,setCharCounter] = useState(0);
     const [query,setQuery] = useState("");
+    const [isTooLong,setIsTooLong] = useState(false);
 
     useEffect(() => {
         if (query.length > 2000) {
             setCharCounter(`Max size is 2000 characters ! (${query.length})`); 
+            setIsTooLong(true);
         }else {
 
                 setCharCounter(query.length);
+                setIsTooLong(false);
             }
         
     }, [query])
@@ -94,6 +97,10 @@ const SubmitPage = ({assets, setAssets,big}) => {
         setSubText(str);
     }
 
+    const FieldText = styled.legend`
+    color: ${props => props.isTooLong ? "red" : "black"};
+    `
+
     
 
     
@@ -110,7 +117,7 @@ const SubmitPage = ({assets, setAssets,big}) => {
             {selectedCategory != "All" && 
             selectedCategory == "Copypasta" ? (
             <fieldset style={{placeSelf: "center", width: "50%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-            <legend style={{position:"", bottom: 10, right: -20}}>{charCounter}</legend>
+            <FieldText isTooLong={isTooLong}>{charCounter}</FieldText>
             <SearchBar style={{width:"100%"}} big={selectedCategory == "Copypasta"} spellCheck="false" onChange={e => setQuery(e.target.value.trim())} defaultValue={query}>
                 
                 </SearchBar>
