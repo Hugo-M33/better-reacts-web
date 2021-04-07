@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import {useState, useEffect} from "react"
 import SubmitCategoryButton from '../components/SubmitCategoryButton'
+import SubmitButton from '../components/SubmitButton'
 
 
 const APPLOGO = "https://risibank.fr/cache/stickers/d1591/159154-full.png"
@@ -50,12 +51,31 @@ const SearchBar = styled.textarea`
 `
 
 const Page = styled.main`
+width: 100vw;
 display: grid;
 grid-template-rows: ${props => props.big ? "15vh 12.5vh 40vh 1fr" : "20vh 15vh 10vh 1fr"};
 `
 
+const FieldText = styled.legend`
+    color: ${props => props.isTooLong ? "red" : "black"};
+    `
+
 const SubTitle = ({children}) => {
     return (<h2>{children}</h2>)
+}
+
+const isFile = (str, cat) => {
+    const vids = [".mp4", ".webm", ".mov"];
+    const imgs = [".jpg", ".jpeg", ".JPG", ".JPEG", ".png", ".PNG", ".gif", ".gifv"];
+    const auds = [".wav", ".mp3", ".ogg"];
+    switch (cat) {
+        case "Audio":
+            return auds.find(ext => str.endsWith(ext))
+        case "Video":
+            return vids.find(ext => str.endsWith(ext))
+        case "Image":
+            return imgs.find(ext => str.endsWith(ext))
+    }
 }
 
 const SubmitPage = ({assets, setAssets,big}) => {
@@ -64,6 +84,7 @@ const SubmitPage = ({assets, setAssets,big}) => {
     const [charCounter,setCharCounter] = useState(0);
     const [query,setQuery] = useState("");
     const [isTooLong,setIsTooLong] = useState(false);
+    const [valid,setValid] = useState(false);
 
     useEffect(() => {
         if (query.length > 2000) {
@@ -74,8 +95,23 @@ const SubmitPage = ({assets, setAssets,big}) => {
                 setCharCounter(query.length);
                 setIsTooLong(false);
             }
+        switch (selectedCategory) {
+            case "Video":
+                setValid((query.startsWith("http://") || query.startsWith("https://")) && isFile(query, "Video"))
+                break;
+            case "Image":
+                setValid((query.startsWith("http://") || query.startsWith("https://")) && isFile(query, "Image"))
+                break;
+            case "Audio":
+                setValid((query.startsWith("http://") || query.startsWith("https://")) && isFile(query, "Audio"))
+                break;
+            case "Copypasta":
+                setValid(query.length <= 2000 && query.length > 0);
+                console.log(query.length <= 2000 && query.length > 0)
+                break;
+        }
         
-    }, [query])
+    }, [query, selectedCategory])
 
     const updateSubText = cat => {
         let str = ""
@@ -97,9 +133,7 @@ const SubmitPage = ({assets, setAssets,big}) => {
         setSubText(str);
     }
 
-    const FieldText = styled.legend`
-    color: ${props => props.isTooLong ? "red" : "black"};
-    `
+    
 
     
 
@@ -130,6 +164,7 @@ const SubmitPage = ({assets, setAssets,big}) => {
             <CategorySelectorArea>
                 {Categories.filter(c => c != "All").map(c => <SubmitCategoryButton key={"catButton" + c} setSubText={updateSubText} category={c} selected={c === selectedCategory} setter={setSelectedCategory}></SubmitCategoryButton>)}
             </CategorySelectorArea>
+            {selectedCategory != "All" && <SubmitButton isValid={valid}>Submit</SubmitButton>}
             
         </Page>
     )

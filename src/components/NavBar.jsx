@@ -25,9 +25,18 @@ const Menu = styled.ul`
 
 const spring = {
   type: "spring",
-  stiffness: 500,
+  stiffness: 300,
   damping: 30
 };
+
+const getColor = page => {
+    switch(page) {
+        case "Home":
+            return "#3267b7"
+        case "Submit":
+            return "#b73254"
+    }
+}
 
 const Item = ({ isSelected, onClick, children }) => {
     return (
@@ -37,7 +46,7 @@ const Item = ({ isSelected, onClick, children }) => {
         {isSelected && (
           <motion.div
             layoutId="backgroundNav"
-            style={{background: "#B73254", opacity: .75, borderRadius: 15, padding: "2%", position: "absolute", top: 10, bottom: 10, left: -10, right: -10, zIndex:-1}}
+            style={{background: getColor(children), opacity: .75, borderRadius: 15, padding: "2%", position: "absolute", top: 10, bottom: 10, left: -10, right: -10, zIndex:-1}}
             initial={false}
             transition={spring}
           ></motion.div>
