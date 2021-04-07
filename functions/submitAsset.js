@@ -24,10 +24,20 @@ const getCollection = async (type) => {
     }
 }
 exports.handler = async function (event, context) {
+    
     // Only allow POST
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
+
+  return { statusCode: 400,
+  body: JSON.stringify(JSON.parse(event.body)),
+  headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Methods": "POST, OPTION",
+    },
+};
 
   const collection = await getCollection(JSON.parse(event.body).type)
   const doc = await collection.doc(JSON.parse(event.body).key).get();

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {useState, useEffect} from "react"
+import { useState, useEffect } from "react"
 import SubmitCategoryButton from '../components/SubmitCategoryButton'
 import SubmitButton from '../components/SubmitButton'
 
@@ -38,9 +38,9 @@ h2 {
 const SearchBar = styled.textarea`
     place-self: center;
     width: 50%;
-    height: ${props => props.big ? "15rem ": "2.5rem"};
-    line-height: ${props => props.big ? "1.125rem ": "2.5rem"};
-    font-size: ${props => props.big ? "1.125rem ": "2rem"};
+    height: ${props => props.big ? "15rem " : "2.5rem"};
+    line-height: ${props => props.big ? "1.125rem " : "2.5rem"};
+    font-size: ${props => props.big ? "1.125rem " : "2rem"};
     font-family: sans-serif;
     font-weight: ${props => props.big ? 400 : 600};
     resize: none;
@@ -60,7 +60,7 @@ const FieldText = styled.legend`
     color: ${props => props.isTooLong ? "red" : "black"};
     `
 
-const SubTitle = ({children}) => {
+const SubTitle = ({ children }) => {
     return (<h2>{children}</h2>)
 }
 
@@ -78,23 +78,32 @@ const isFile = (str, cat) => {
     }
 }
 
-const SubmitPage = ({assets, setAssets,big}) => {
+const SubmitPage = ({ assets, setAssets, big }) => {
     const [selectedCategory, setSelectedCategory] = useState("All");
-    const [subText,setSubText] = useState("Choose a category")
-    const [charCounter,setCharCounter] = useState(0);
-    const [query,setQuery] = useState("");
-    const [isTooLong,setIsTooLong] = useState(false);
-    const [valid,setValid] = useState(false);
+    const [subText, setSubText] = useState("Choose a category")
+    const [charCounter, setCharCounter] = useState(0);
+    const [query, setQuery] = useState("");
+    const [isTooLong, setIsTooLong] = useState(false);
+    const [valid, setValid] = useState(false);
+
+    useEffect(() => {
+        fetch("https://better-reacts.netlify.app/.netlify/functions/submitAsset", {
+            method: "POST",
+            
+            body: JSON.stringify({ key: "THISISTEST", link: "https://www.google.com", type: "Image" })
+        }).then(r => r.json()).then(console.log)
+
+    }, [])
 
     useEffect(() => {
         if (query.length > 2000) {
-            setCharCounter(`Max size is 2000 characters ! (${query.length})`); 
+            setCharCounter(`Max size is 2000 characters ! (${query.length})`);
             setIsTooLong(true);
-        }else {
+        } else {
 
-                setCharCounter(query.length);
-                setIsTooLong(false);
-            }
+            setCharCounter(query.length);
+            setIsTooLong(false);
+        }
         switch (selectedCategory) {
             case "Video":
                 setValid((query.startsWith("http://") || query.startsWith("https://")) && isFile(query, "Video"))
@@ -110,12 +119,12 @@ const SubmitPage = ({assets, setAssets,big}) => {
                 console.log(query.length <= 2000 && query.length > 0)
                 break;
         }
-        
+
     }, [query, selectedCategory])
 
     const updateSubText = cat => {
         let str = ""
-        switch(cat) {
+        switch (cat) {
             case "Video":
                 str = "Accepted : .mp4 .webm .mov"
                 break;
@@ -128,18 +137,18 @@ const SubmitPage = ({assets, setAssets,big}) => {
             case "Copypasta":
                 str = "Copy your pasta !"
                 break
-                        }
-                        console.log(str)
+        }
+        console.log(str)
         setSubText(str);
     }
 
-    
 
-    
 
-    
 
-    
+
+
+
+
 
     return (
         <Page big={selectedCategory == "Copypasta"}>
@@ -148,24 +157,24 @@ const SubmitPage = ({assets, setAssets,big}) => {
                 <h1>Submit your own</h1>
                 <SubTitle>{subText}</SubTitle>
             </SubLogo>
-            {selectedCategory != "All" && 
-            selectedCategory == "Copypasta" ? (
-            <fieldset style={{placeSelf: "center", width: "50%", display: "flex", alignItems: "center", justifyContent: "center"}}>
-            <FieldText isTooLong={isTooLong}>{charCounter}</FieldText>
-            <SearchBar style={{width:"100%"}} big={selectedCategory == "Copypasta"} spellCheck="false" onChange={e => setQuery(e.target.value.trim())} defaultValue={query}>
-                
-                </SearchBar>
-            </fieldset> ):
-            (<SearchBar big={selectedCategory == "Copypasta"} spellCheck="false" onChange={e => setQuery(e.target.value.trim())} defaultValue={query}>
-                
-            </SearchBar>)
-                }
-                
+            {selectedCategory != "All" &&
+                selectedCategory == "Copypasta" ? (
+                <fieldset style={{ placeSelf: "center", width: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <FieldText isTooLong={isTooLong}>{charCounter}</FieldText>
+                    <SearchBar style={{ width: "100%" }} big={selectedCategory == "Copypasta"} spellCheck="false" onChange={e => setQuery(e.target.value.trim())} defaultValue={query}>
+
+                    </SearchBar>
+                </fieldset>) :
+                (<SearchBar big={selectedCategory == "Copypasta"} spellCheck="false" onChange={e => setQuery(e.target.value.trim())} defaultValue={query}>
+
+                </SearchBar>)
+            }
+
             <CategorySelectorArea>
                 {Categories.filter(c => c != "All").map(c => <SubmitCategoryButton key={"catButton" + c} setSubText={updateSubText} category={c} selected={c === selectedCategory} setter={setSelectedCategory}></SubmitCategoryButton>)}
             </CategorySelectorArea>
             {selectedCategory != "All" && <SubmitButton isValid={valid}>Submit</SubmitButton>}
-            
+
         </Page>
     )
 }
