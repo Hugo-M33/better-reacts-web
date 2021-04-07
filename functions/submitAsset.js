@@ -30,18 +30,19 @@ exports.handler = async function (event, context) {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
-  return { statusCode: 200,
+  /*return { statusCode: 200,
   body: JSON.stringify(JSON.parse(event.body)),
   headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Allow-Methods": "POST, OPTION",
     },
-};
+};*/
 
   const collection = await getCollection(JSON.parse(event.body).type)
-  const doc = await collection.doc(JSON.parse(event.body).key).get();
-        if (!doc.exists) {
+  const doc = await collection.doc(JSON.parse(event.body).key)
+  const docObj = await doc.get();
+        if (!docObj.exists) {
             doc.set({
                 defaultMessage: JSON.parse(event.body).key,
                 key: JSON.parse(event.body).key,
