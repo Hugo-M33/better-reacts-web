@@ -22,7 +22,9 @@ const compareAssets = (a, b) => a.key.localeCompare(b.key)
 function App() {
   const [assets, setAssets] = useState([])
   const fetchData =  async () => {
-    const data = await fetch("https://better-reacts.netlify.app/.netlify/functions/getAssets", {method: 'GET'}).then(p => p.json()).then(a => a.sort(compareAssets)).then(r => setAssets(r))
+    const data = await fetch("https://better-reacts.netlify.app/.netlify/functions/getAssets", {method: 'GET'}).then(p => p.json()).then(a => a.sort(compareAssets))
+    setAssets(data);
+    
     //const data = await fetch("http://localhost:57514/.netlify/functions/getAssets", {method: 'GET'}).then(p => p.json()).then(r => setAssets(r))
 }
 

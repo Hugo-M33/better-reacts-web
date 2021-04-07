@@ -40,9 +40,23 @@ const SearchBar = styled.textarea`
     width: 50%;
     height: ${props => props.big ? "15rem " : "2.5rem"};
     line-height: ${props => props.big ? "1.125rem " : "2.5rem"};
-    font-size: ${props => props.big ? "1.125rem " : "2rem"};
+    font-size: ${props => props.big ? "1.125rem " : "1.6rem"};
     font-family: sans-serif;
-    font-weight: ${props => props.big ? 400 : 600};
+    font-weight: ${props => props.big ? 300 : 500};
+    resize: none;
+    box-sizing: border-box;
+    padding: 0 1%;
+    position: "relative";
+    
+`
+const NameInput = styled.textarea`
+    place-self: center;
+    width: 25%;
+    height: 2rem;
+    line-height: 1.75rem;
+    font-size: 1.75rem;
+    font-family: sans-serif;
+    font-weight: 700;
     resize: none;
     box-sizing: border-box;
     padding: 0 1%;
@@ -85,15 +99,9 @@ const SubmitPage = ({ assets, setAssets, big }) => {
     const [query, setQuery] = useState("");
     const [isTooLong, setIsTooLong] = useState(false);
     const [valid, setValid] = useState(false);
+    const [name,setName] = useState("")
 
-    useEffect(() => {
-        fetch("https://better-reacts.netlify.app/.netlify/functions/submitAsset", {
-            method: "POST",
-            
-            body: JSON.stringify({ key: "THISISTEST", link: "https://www.google.com", type: "Image" })
-        }).then(r => r.json()).then(console.log)
-
-    }, [])
+    
 
     useEffect(() => {
         if (query.length > 2000) {
@@ -116,7 +124,6 @@ const SubmitPage = ({ assets, setAssets, big }) => {
                 break;
             case "Copypasta":
                 setValid(query.length <= 2000 && query.length > 0);
-                console.log(query.length <= 2000 && query.length > 0)
                 break;
         }
 
@@ -138,8 +145,15 @@ const SubmitPage = ({ assets, setAssets, big }) => {
                 str = "Copy your pasta !"
                 break
         }
-        console.log(str)
         setSubText(str);
+    }
+
+    const submit = async () => {
+        const req = await fetch("https://better-reacts.netlify.app/.netlify/functions/submitAsset", {
+            method: "POST",
+            body: JSON.stringify({key: name, link: query, type: selectedCategory})
+        })
+        req.json().then(r => r).then(r => setSubText(r.message));
     }
 
 
@@ -157,23 +171,25 @@ const SubmitPage = ({ assets, setAssets, big }) => {
                 <h1>Submit your own</h1>
                 <SubTitle>{subText}</SubTitle>
             </SubLogo>
-            {selectedCategory != "All" &&
+            <NameInput spellCheck="false" onChange={e => setName(e.target.value.trim())} defaultValue={name}></NameInput>
+            {selectedCategory != "All" ?
                 selectedCategory == "Copypasta" ? (
                 <fieldset style={{ placeSelf: "center", width: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <FieldText isTooLong={isTooLong}>{charCounter}</FieldText>
+                    
                     <SearchBar style={{ width: "100%" }} big={selectedCategory == "Copypasta"} spellCheck="false" onChange={e => setQuery(e.target.value.trim())} defaultValue={query}>
 
                     </SearchBar>
                 </fieldset>) :
                 (<SearchBar big={selectedCategory == "Copypasta"} spellCheck="false" onChange={e => setQuery(e.target.value.trim())} defaultValue={query}>
 
-                </SearchBar>)
+                </SearchBar>) : true}
             }
 
             <CategorySelectorArea>
                 {Categories.filter(c => c != "All").map(c => <SubmitCategoryButton key={"catButton" + c} setSubText={updateSubText} category={c} selected={c === selectedCategory} setter={setSelectedCategory}></SubmitCategoryButton>)}
             </CategorySelectorArea>
-            {selectedCategory != "All" && <SubmitButton isValid={valid}>Submit</SubmitButton>}
+            {selectedCategory != "All" && <SubmitButton submitFunction={submit} isValid={valid}>Submit</SubmitButton>}
 
         </Page>
     )

@@ -17,9 +17,12 @@ transition: all ease-in-out .3s;
 cursor: ${props => props.isValid ? "pointer" : "not-allowed"};
 `
 
-const SubmitButton = ({children, isValid}) => {
+const SubmitButton = ({children, isValid, submitFunction}) => {
+    const handleSubmit = () => {
+        if(isValid) submitFunction()
+    }
     return (
-        <StyledButton isValid={isValid}>
+        <StyledButton onClick={() => handleSubmit()}isValid={isValid}>
             {children}
         </StyledButton>
     )
