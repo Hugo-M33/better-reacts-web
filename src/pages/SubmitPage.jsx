@@ -177,11 +177,11 @@ const SubmitPage = ({ assets, setAssets, big }) => {
                 <fieldset style={{ placeSelf: "center", width: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <FieldText isTooLong={isTooLong}>{charCounter}</FieldText>
                     
-                    <SearchBar style={{ width: "100%" }} placeholder={"http://www.website.com/link/to/your/file.(extension)"} big={selectedCategory == "Copypasta"} spellCheck="false" onChange={e => setQuery(e.target.value.trim())} defaultValue={query}>
+                    <SearchBar style={{ width: "100%" }}  big={selectedCategory == "Copypasta"} spellCheck="false" onChange={e => setQuery(e.target.value.trim())} defaultValue={query}>
 
                     </SearchBar>
                 </fieldset>) :
-                (<SearchBar big={selectedCategory == "Copypasta"} spellCheck="false" onChange={e => setQuery(e.target.value.trim())} defaultValue={query}>
+                (<SearchBar big={selectedCategory == "Copypasta"} placeholder={"http://www.website.com/link/to/your/file.(extension)"} spellCheck="false" onChange={e => setQuery(e.target.value.trim())} defaultValue={query}>
 
                 </SearchBar>) : true}
             }
