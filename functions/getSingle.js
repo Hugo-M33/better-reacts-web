@@ -20,6 +20,8 @@ const getCollection = async (type) => {
             return  db.collection("d-images");
         case "Copypasta":
             return  db.collection("d-copypasta");
+        case "Ratio":
+            return db.collection("d-ratio");
             
     }
 }
